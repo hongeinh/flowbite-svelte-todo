@@ -1,7 +1,5 @@
 <script>
     import TodoApp from "$lib/components/TodoApp.svelte";
-    import { Provider } from "svelte-redux";
-    import { store } from "../lib/store";
 </script>
 
 <svelte:head>
@@ -9,6 +7,6 @@
     <meta name='Svelte introduction' content='Svelte demo app'/>
 </svelte:head>
 
-<Provider store={store}>
+<div class="flex flex-cols justify-center font-sans bg-indigo-50 p-6 shadow-lg w-[30%" mx-auto mt-16>
     <TodoApp />
-</Provider>
+</div>
