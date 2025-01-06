@@ -1,12 +1,23 @@
 <script>
-  import { todoTasks } from './store';
+    import { todoHandlers, todoStore } from '$lib/stores/todoStore';
   import TodoInput from './TodoInput.svelte';
+  import { onMount } from 'svelte';
+  let todoTasks = [];
+  todoStore.subscribe((todoStore) => {
+    console.log("My todos", todoStore?.todos);
+    todoTasks = todoStore?.todos;
+  })
 
   function finishTask(index, isChecked) {
     todoTasks.update(tasks => {
       tasks[index].status = isChecked ? 'Finish' : 'In progress';
       return tasks;
     });
+  }
+
+  async function completeTask(todoId, todoData) {
+
+    await todoHandlers.updateTodo(todoId, todoData);
   }
 
   let showModal = false;
@@ -16,6 +27,10 @@
   function closeAddTask() {
     showModal = false;
   }
+
+  onMount(async () => {
+    await todoHandlers.getTodos();
+  })
 </script>
 
 <div>
@@ -32,13 +47,16 @@
         </div>
       </div>
   <div >
-    {#each $todoTasks as task, i}
+    {#each todoTasks as task, i}
       <div class="bg-white rounded-lg shadow-md p-4 m-2">
         <div class="flex">
             <input 
             type="checkbox" 
             checked={task.status === 'Finish'} 
-            onchange={e => finishTask(i, e.target.checked)} 
+            onchange={e => {
+              task.status = "Finish";
+              completeTask(task.id, task);
+            }} 
             class="cursor-pointer rounded-full w-6 h-6 mr-4"
             disabled={task.status === "Finish"} />
             <p class={`text-lg ${task.status === "Finish" ? 'line-through text-gray-500':''}`}>{task.name}</p>
