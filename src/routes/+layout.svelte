@@ -29,52 +29,52 @@
 		'/'
 	];
 
-	onMount(async () => {
+	// onMount(async () => {
 
-		const unsubscribe = auth.onAuthStateChanged(async (user) => {
-			const currentPath = window.location.pathname;
+	// 	const unsubscribe = auth.onAuthStateChanged(async (user) => {
+	// 		const currentPath = window.location.pathname;
 
-			if (!user && !nonAuthRoutes.includes(currentPath)) {
-				window.location.href = '/';
-				return;
-			}
+	// 		if (!user && !nonAuthRoutes.includes(currentPath)) {
+	// 			window.location.href = '/';
+	// 			return;
+	// 		}
 
-			if (!user) {
-				return;
-			}
+	// 		if (!user) {
+	// 			return;
+	// 		}
 
-			if (user) {
-				let dataToSetToStore;
-				const docRef = doc(db, 'users', user.uid);
-				const docSnap = await getDoc(docRef);
-				if (!docSnap.exists()) {
-					console.log('Creating/initializing first time User');
-					const userRef = doc(db, 'users', user.uid);
-					dataToSetToStore = {
-						email: user.email,
-						profileImage:'',
-						displayName: user.displayName,
-						uid: user.uid,
-						phoneNumber: '',
-						admin: false,
-						address: { streetAddress: '', unitNumber: '', state: '', city: '', zipCode: '' }
-					};
-					await setDoc(userRef, dataToSetToStore, {
-						merge: true
-					});
-				} else {
-					// console.log('Fetching User');
-					const userData = docSnap.data();
-					dataToSetToStore = userData;
-				}
+	// 		if (user) {
+	// 			let dataToSetToStore;
+	// 			const docRef = doc(db, 'users', user.uid);
+	// 			const docSnap = await getDoc(docRef);
+	// 			if (!docSnap.exists()) {
+	// 				console.log('Creating/initializing first time User');
+	// 				const userRef = doc(db, 'users', user.uid);
+	// 				dataToSetToStore = {
+	// 					email: user.email,
+	// 					profileImage:'',
+	// 					displayName: user.displayName,
+	// 					uid: user.uid,
+	// 					phoneNumber: '',
+	// 					admin: false,
+	// 					address: { streetAddress: '', unitNumber: '', state: '', city: '', zipCode: '' }
+	// 				};
+	// 				await setDoc(userRef, dataToSetToStore, {
+	// 					merge: true
+	// 				});
+	// 			} else {
+	// 				// console.log('Fetching User');
+	// 				const userData = docSnap.data();
+	// 				dataToSetToStore = userData;
+	// 			}
 
-				authStore.update((curr) => {
-					return { ...curr, currentUser: user, data: dataToSetToStore, isLoading: false };
-				});
-			}
-		});
-		return unsubscribe;
-	});
+	// 			authStore.update((curr) => {
+	// 				return { ...curr, currentUser: user, data: dataToSetToStore, isLoading: false };
+	// 			});
+	// 		}
+	// 	});
+	// 	return unsubscribe;
+	// });
 </script>
 
 <svelte:head>
@@ -83,7 +83,7 @@
 	<meta name="description" content="Hongs todo app" />
 </svelte:head>
 
-<div class="app background-white relative">
+<div class="app bg-indigo-100 relative">
 	<main>
 		<slot />
 	</main>
@@ -104,5 +104,6 @@
 		max-width: 64rem;
 		margin: 0 auto;
 		box-sizing: border-box;
+		justify-items: center;
 	}
 </style>

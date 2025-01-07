@@ -27,6 +27,7 @@ export const todoHandlers = {
             const todosRef = collection(db, 'todos');
             const snapshot = await getDocs(todosRef);
             const todos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            console.log("todo store get todos", todos)
             todoStore.set({ isLoading: false, todos });
         } catch (error) {
             console.error('Error fetching todos:', error);

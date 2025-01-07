@@ -1,8 +1,6 @@
 // @ts-nocheck
 import { derived, writable } from 'svelte/store';
-import {
-	auth,
-} from '$lib/firebase/firebase.client';
+import { auth } from '$lib/firebase/firebase.client';
 import {
 	createUserWithEmailAndPassword,
 	sendPasswordResetEmail,
@@ -37,7 +35,7 @@ export const authHandlers = {
 		await signInWithEmailAndPassword(auth, email, password);
 	},
 
-checkEmailExists: async (email) => {
+	checkEmailExists: async (email) => {
 		try {
 			const signInMethods = await fetchSignInMethodsForEmail(auth, email);
 			return {
